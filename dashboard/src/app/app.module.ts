@@ -12,6 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { GeneralComponent } from './main-dashboard/general/general.component';
 import { NgChartsModule } from 'ng2-charts';
 import { HttpClientModule } from '@angular/common/http';
+import { OrdersService } from './service/orders.service';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,9 @@ import { HttpClientModule } from '@angular/common/http';
     MatDatepickerModule,
     HttpClientModule,
   ],
-  providers: [],
+  providers: [
+    OrdersService
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

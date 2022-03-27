@@ -1,0 +1,189 @@
+openapi: 3.0.0
+info:
+  version: '0.1'
+  title: Dashboard statistics api
+  description: >-
+    All statistic services exposed by Symfony bcshop back end
+servers:
+  - url: 'http://127.0.0.1:8000/bcshop-api'
+  - url: 'https://c22bceb4-d694-4652-94ba-560594f4b5b9.mock.pstmn.io/bcshop-api'
+paths:
+  '/orders':
+    get:
+      summary: Statistics of orders on selected time range
+      description: Gives several statistics of orders by dates in the selected time range
+      parameters:
+        - name: startDate
+          in: query
+          required: true
+          description: Start date
+          schema:
+            type: string
+        - name: endDate
+          in: query
+          required: true
+          description: End date
+          schema:
+            type: string
+      responses:
+        '200':
+          description: GET orders nominal case
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderResponse'
+  '/visits':
+    get:
+      summary: Statistics of visits on selected time range
+      description: Gives several statistics of client visits on bcshop services by dates in the selected time range
+      parameters:
+        - name: startDate
+          in: query
+          required: true
+          description: Start date
+          schema:
+            type: string
+        - name: endDate
+          in: query
+          required: true
+          description: End date
+          schema:
+            type: string
+      responses:
+        '200':
+          description: GET orders nominal case
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/VisitResponse'
+  '/categories/sales':
+    get:
+      summary: Statistics of sales by categories on selected time range
+      description: Gives several statistics of sales by categories on bcshop services by dates in the selected time range
+      parameters:
+        - name: startDate
+          in: query
+          required: true
+          description: Start date
+          schema:
+            type: string
+        - name: endDate
+          in: query
+          required: true
+          description: End date
+          schema:
+            type: string
+      responses:
+        '200':
+          description: GET orders nominal case
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SalesByCategoryResponse'
+  '/subcategories/{category}/sales':
+    get:
+      summary: Statistics of sales by subcategories on selected time range
+      description: Gives several statistics of sales by subcategories on bcshop services by dates in the selected time range
+      parameters:
+        - name: category
+          in: path
+          required: true
+          description: Category
+          schema:
+            type: string
+        - name: startDate
+          in: query
+          required: true
+          description: Start date
+          schema:
+            type: string
+        - name: endDate
+          in: query
+          required: true
+          description: End date
+          schema:
+            type: string
+      responses:
+        '200':
+          description: GET orders nominal case
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SalesBySubcategoryResponse'
+  '/clients':
+    get:
+      summary: Statistics of clients on selected time range
+      description: Gives several statistics of connected clients on bcshop services by dates in the selected time range
+      parameters:
+        - name: startDate
+          in: query
+          required: true
+          description: Start date
+          schema:
+            type: string
+        - name: endDate
+          in: query
+          required: true
+          description: End date
+          schema:
+            type: string
+      responses:
+        '200':
+          description: GET orders nominal case
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClientsResponse'
+components:
+  schemas:
+    OrderResponse:
+      properties:
+        date:
+          type: string
+        number:
+          type: number
+        averagePrice:
+          type: number
+        conversionPercentage:
+          type: number
+        cartConversionPercentage:
+          type: number
+        droppedCartPercentage:
+          type: number
+        recurrence:
+          type: number
+
+    VisitResponse:
+      properties:
+        date:
+          type: string
+        number:
+          type: number
+    SalesByCategoryResponse:
+      properties:
+        category:
+          type: string
+        percentage:
+          type: number
+        value:
+          type: number
+    SalesBySubcategoryResponse:
+      properties:
+        category:
+          type: string
+        percentage:
+          type: number
+    ClientsResponse:
+      properties:
+        new:
+          type: number
