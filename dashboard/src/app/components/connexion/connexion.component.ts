@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../service/auth.service';
+import { AuthService } from '../../service/auth.service';
 
 @Component({
   selector: 'app-connexion',
@@ -12,9 +12,13 @@ export class ConnexionComponent implements OnInit {
   public email!: string;
   public password!: string;
   public souvenir: boolean = false;
-  constructor(public router: Router, public authServe: AuthService) {}
+  public numberOfOrders = 0;
 
-  ngOnInit(): void {}
+  constructor(public router: Router, public authServe: AuthService) {
+  }
+
+  ngOnInit(): void {
+  }
 
   connexion(monForm: NgForm) {
     this.authServe.login();
