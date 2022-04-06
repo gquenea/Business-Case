@@ -34,6 +34,10 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
             // do anything else you need here, like send an email
 
+            if ($this->container->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+                return $this->redirectToRoute('usersIndex');
+            }
+
             return $this->redirectToRoute('homepage');
         }
 

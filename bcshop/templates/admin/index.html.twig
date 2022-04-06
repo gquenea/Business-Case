@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AdminController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h1>Bienvenue dans la partie administrateur</h1>
+
+    <a class="btn btn-secondary" href="{{ path('usersIndex') }}">Gestion des utilisateurs</a>
+    <a class="btn btn-secondary" href="">Gestion des commandes</a>
+    <a class="btn btn-secondary" href="{{ path('animauxIndex') }}">Gestion des catégories</a>
+    <a class="btn btn-secondary" href="">Gestion des produits</a>
+    <a class="btn btn-secondary" href="{{ path('categoriesIndex') }}">Gestion des sous-catégories</a>
+
+
+</div>
+{% endblock %}

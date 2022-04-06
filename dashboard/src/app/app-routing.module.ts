@@ -1,9 +1,9 @@
 import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ConnexionComponent } from './connexion/connexion.component';
-import { MainDashboardComponent } from './main-dashboard/main-dashboard.component';
+import { ConnexionComponent } from './components/connexion/connexion.component';
+import { MainDashboardComponent } from './components/main-dashboard/main-dashboard.component';
 import { AuthGuard } from './guards/auth.guard';
-import { GeneralComponent } from './main-dashboard/general/general.component';
+import { GeneralComponent } from './components/main-dashboard/general/general.component';
 
 const routes: Routes = [
   {

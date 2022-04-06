@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AdminController!{% endblock %}
+
+{% block body %}
+    <style>
+        .example-wrapper {
+            margin: 1em auto;
+            max-width: 800px;
+            width: 95%;
+            font: 18px/1.5 sans-serif;
+        }
+
+        .example-wrapper code {
+            background: #F5F5F5;
+            padding: 2px 6px;
+        }
+    </style>
+
+    <div class="example-wrapper">
+        <h1>Gestion des Utilisateurs</h1>
+
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+
+                    <th><strong>#</strong></th>
+                    <th><strong>Username</strong></th>
+                    <th><strong>Fistname</strong></th>
+                    <th><strong>Lastname</strong></th>
+                    <th><strong>Email</strong></th>
+                    <th><strong>Options</strong></th>
+
+                </tr>
+
+                </thead>
+                <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.firstname }}</td>
+                    <td>{{ user.secondname }}</td>
+                    <td>{{ user.email }}</td>
+                    <td class="d-flex"><a class="btn btn-primary" href="{{ path('usersEdit', {id:user.id}) }}">Modifier</a>
+                        <a class="btn btn-danger" href="{{ path('usersDelete', {id:user.id}) }}">Supprimer</a></td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        <a class="btn btn-primary" href="{{ path('register') }}">Créer un utilisateur</a>
+        <a class="btn btn-warning" href="{{ path('admin') }}">Retour</a>
+
+    </div>
+{% endblock %}

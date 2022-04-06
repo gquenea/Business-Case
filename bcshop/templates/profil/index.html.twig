@@ -20,7 +20,7 @@
         {% endfor %}
 
 
-        <h2><u>Votre profil</u></h2>
+        <h2><u>Votre profil :</u></h2>
         <div class="text-center">
             <p><strong>Pseudo</strong> : {{ app.user.username }}</p>
         <p><strong>Prénom</strong> : {{ app.user.firstname }}</p>
@@ -33,15 +33,16 @@
         <a class="btn btn-primary" href="{{ path('changepassword', {id:app.user.id}) }}">Modifier le mot de passe</a>
         <a class="btn btn-danger" href="{{ path('deleteprofil', {id:app.user.id}) }}">Supprimer le compte</a>
         <hr>
-        <h2><u>Adresses de livraison</u></h2>
+        <h2><u>Adresses de livraison :</u></h2>
         <div class="text-center">
         {% for address in app.user.addresses %}
             <p>{{ address.number }} {{ address.street }} {{ address.zipcode }} {{ address.city }}</p>
+            <a href="{{ path('editAddress',{id:address.id}) }}">Modifier</a>
+            <a class="btn btn-danger" href="{{ path('deleteAddress', {id:address.id}) }}">Supprimer</a>
             <hr>
         {% endfor %}
         </div>
-
-{#        <a href="{{ path('addAddress') }}">Ajouter une addresse de livraison</a>#}
+        <a class="btn btn-primary" href="{{ path('addAddress') }}">Ajouter une addresse de livraison</a>
     </div>
 </div>
 {% endblock %}
