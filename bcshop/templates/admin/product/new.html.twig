@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AdminController!{% endblock %}
+
+{% block body %}
+    <style>
+        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    </style>
+
+    <div class="example-wrapper">
+        <h1>Ajouts d'un nouveau produit</h1>
+
+        {{ form_start(form) }}
+
+
+        {{ form_row(form.name) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.price) }}
+        {{ form_row(form.brand) }}
+        {{ form_row(form.quantity) }}
+        {{ form_row(form.isActive) }}
+        {{ form_row(form.category) }}
+        <ul class="tags list-unstyled"
+            data-index="{{ form.image|length > 0 ? form.image|last.vars.name + 1 : 0 }}"
+            data-prototype="{{ form_widget(form.image.vars.prototype)|e('html_attr') }}"
+
+        ></ul>
+
+        <button type="button" class="add_item_link btn btn-primary" data-collection-holder-class="tags">Ajouter une image</button>
+
+
+        <button type="submit" class="btn btn-success">Valider les modifications</button>
+
+        {{ form_end(form) }}
+        <a class="btn btn-warning" href="{{ path('productsIndex') }}">Retour</a>
+
+    </div>
+
+    <script>
+
+
+        const addFormToCollection = (e) => {
+            const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
+
+            const item = document.createElement('li');
+
+            item.innerHTML = collectionHolder
+                .dataset
+                .prototype
+                .replace(
+                    /__name__/g,
+                    collectionHolder.dataset.index
+                );
+
+            collectionHolder.appendChild(item);
+
+            collectionHolder.dataset.index++;
+
+            const addTagFormDeleteLink = (e) => {
+                const addTagFormDeleteLink = (item) => {
+                    const removeFormButton = document.createElement('button');
+                    removeFormButton.innerText = 'Delete this tag';
+
+                    item.append(removeFormButton);
+
+                    removeFormButton.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        // remove the li for the tag form
+                        item.remove();
+                    });
+                }
+            }
+        };
+
+        document
+            .querySelectorAll('.add_item_link')
+            .forEach(btn => {
+                btn.addEventListener("click", addFormToCollection)
+            });
+
+        document
+            .querySelectorAll('ul.tags li')
+            .forEach((tag) => {
+                addTagFormDeleteLink(tag)
+            })
+    </script>
+{% endblock %}

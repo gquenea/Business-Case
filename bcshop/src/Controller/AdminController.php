@@ -4,13 +4,15 @@ namespace App\Controller;
 
 use App\Entity\Animal;
 use App\Entity\Category;
+use App\Entity\Product;
 use App\Entity\User;
 use App\Form\AnimalType;
 use App\Form\CategoryType;
 use App\Form\EditProfilType;
-use App\Form\UserType;
+use App\Form\ProductType;
 use App\Repository\AnimalRepository;
 use App\Repository\CategoryRepository;
+use App\Repository\ProductRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -232,5 +234,94 @@ class AdminController extends AbstractController
         $manager->flush();
 
         return $this->redirectToRoute('categoriesIndex');
+    }
+
+    // Gestion des products
+
+
+    /**
+     * @Route("/products/index", name="productsIndex")
+     * @param ProductRepository $productRepository
+     * @return Response
+     */
+    public function indexProduct(ProductRepository $productRepository){
+
+        return $this->render('admin/product/index.html.twig',
+            ['products' => $productRepository->findAll()]);
+    }
+
+
+    /**
+     * @Route("/products/new", name="productsNew")
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
+    public function newProduct(Request $request, EntityManagerInterface $manager){
+
+        $product = new Product();
+        $form = $this->createForm(ProductType::class, $product);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()){
+            $manager->persist($product);
+
+            $images = $form->getData()->getImage();
+            foreach($images as $image){
+
+                $image->setProduct($product);
+                $manager->persist($image);
+            }
+
+            $manager->flush();
+
+
+            return $this->redirectToRoute('productsIndex');
+        }
+        return $this->renderForm('admin/product/new.html.twig', ['form'=>$form]);
+    }
+
+
+    /**
+     * @Route("/product/edit{id}", name="productsEdit")
+     * @param Product $product
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
+    public function editProduct(Product $product,Request $request, EntityManagerInterface $manager){
+
+        $form = $this->createForm(ProductType::class, $product);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()){
+            $manager->persist($product);
+
+            $images = $form->getData()->getImage();
+            foreach ($images as $image){
+                $image->setProduct($product);
+
+                $manager->persist($image);
+
+            }
+            $manager->flush();
+            return $this->redirectToRoute('productsIndex');
+        }
+        return $this->renderForm('admin/product/edit.html.twig',['form'=>$form]);
+    }
+
+
+    /**
+     * @Route("/product/delete{id}", name="productsDelete")
+     * @param Product $product
+     * @param EntityManagerInterface $manager
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function deleteProduct(Product $product, EntityManagerInterface $manager){
+
+        $manager->remove($product);
+        $manager->flush();
+
+        return $this->redirectToRoute('productsIndex');
     }
 }
